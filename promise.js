@@ -1,6 +1,6 @@
-const loginUserPromise = (email, password) => {
+const loginUser = (email, password) => {
     return new Promise((resolve, reject) => { // Instanciamento da Promise
-        const error = false; // Simulação de erro
+        const error = true; // Simulação de erro
 
         if (error) {
             reject(new Error('Error in login')); // Caso erro
@@ -29,9 +29,23 @@ const getVideoDetails = (video) => {
     })
 }
 
-// Consumindo a Promise
-loginUserPromise('guil@gmail.com', '123') // Fazendo login do usuário
-    .then((user) => getUserVideos(user.email)) // E então, pegando os vídeo dele
-    .then((videos) => getVideoDetails(videos[0])) // E então, pegando o detalhe do primeiro vídeo (index[0])
-    .then((videoDetails) => console.log({videoDetails})) // E então, exibir os detalhes recebidos pelo resolve
-    .catch((error) => console.log({ error })); // tratamento do erro recebido pelo reject
+// // Consumindo a Promise
+// loginUserPromise('guil@gmail.com', '123') // Fazendo login do usuário
+//     .then((user) => getUserVideos(user.email)) // E então, pegando os vídeo dele
+//     .then((videos) => getVideoDetails(videos[0])) // E então, pegando o detalhe do primeiro vídeo (index[0])
+//     .then((videoDetails) => console.log({videoDetails})) // E então, exibir os detalhes recebidos pelo resolve
+//     .catch((error) => console.log({ error })); // tratamento do erro recebido pelo reject
+
+const displayUser = async () => {
+    try {
+        const user = await loginUser('guil@gmail.com', '123');
+        const videos = await getUserVideos(user.email);
+        const videoDetails = await getVideoDetails(videos[0]);
+    
+        console.log({ videoDetails });
+    } catch (error) {
+        console.log({ error });
+    }
+}
+
+displayUser();
